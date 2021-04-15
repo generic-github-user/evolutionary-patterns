@@ -6,12 +6,13 @@ width = 100
 height = 100
 bases_per_axis = 15
 noise = (-0.05, 0.05)
-num_filters = 8
+num_filters = 16
 samples = (3, 3)
 base_range = (-1, 1)
 filter_range = (-10, 10)
 total_filters = bases_per_axis * num_filters
 total_ops = total_filters * width * height
+norm_parts = True
 print(total_filters, total_ops)
 
 base = np.random.uniform(0, 1, [width, height, 1])
@@ -50,7 +51,7 @@ filters = []
 filter_types = [
     [np.sin],
     [np.cos],
-    # [np.square],
+    [np.square],
     [np.add, filter_range],
     [np.multiply, filter_range],
     [norm]
@@ -87,8 +88,11 @@ def generate():
         g = b
         for f in filters[i]:
             g = f(g)
+        if norm_parts:
+            g = norm(g)
         results.append(g)
-    result = np.product(np.stack(results), axis=0)
+    # result = np.product(np.stack(results), axis=0)
+    result = np.sum(np.stack(results), axis=0)
     return result
 
 # print([r.shape for r in results])
