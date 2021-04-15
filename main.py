@@ -4,9 +4,15 @@ import random
 
 width = 100
 height = 100
-bases_per_axis = 8
-noise = (-0.01, 0.01)
-num_filters = 10
+bases_per_axis = 15
+noise = (-0.05, 0.05)
+num_filters = 8
+samples = (3, 3)
+base_range = (-1, 1)
+filter_range = (-10, 10)
+total_filters = bases_per_axis * num_filters
+total_ops = total_filters * width * height
+print(total_filters, total_ops)
 
 base = np.random.uniform(0, 1, [width, height, 1])
 base = np.zeros([width, height, 1])
@@ -22,8 +28,8 @@ for i, y in enumerate(base):
 # ]
 
 
-x = np.linspace(0, 1, width)
-y = np.linspace(0, 1, height)
+x = np.linspace(*base_range, width)
+y = np.linspace(*base_range, height)
 bases = []
 for i in range(bases_per_axis):
     for r in np.meshgrid(x, y):
@@ -39,9 +45,9 @@ filters = []
 filter_types = [
     [np.sin],
     [np.cos],
-    [np.square],
-    [np.add, (-5, 5)],
-    [np.multiply, (-5, 5)],
+    # [np.square],
+    [np.add, filter_range],
+    [np.multiply, filter_range],
     [norm]
     # # [np.reciprocal],
     # [np.negative],
@@ -51,11 +57,11 @@ filter_types = [
     # [np.sqrt]
 ]
 def filter_wrapper(ft):
-    print(ft)
+    # print(ft)
     def filter_func(filter_input):
         if len(ft) > 1:
             args = [np.random.uniform(*b) for b in ft[1:]]
-            print(ft[1:])
+            # print(ft[1:])
             return ft[0](filter_input, *args)
         else:
             return ft[0](filter_input)
