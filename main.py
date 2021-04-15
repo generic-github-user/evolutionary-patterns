@@ -51,3 +51,12 @@ def filter_wrapper(ft):
         else:
             return ft[0](filter_input)
     return filter_func
+
+for b in range(len(bases)):
+    bf = []
+    for i in range(20):
+        f = filter_wrapper(random.choice(filter_types))
+        bf.append(f)
+    filters.append(bf)
+
+print(filters[0])
