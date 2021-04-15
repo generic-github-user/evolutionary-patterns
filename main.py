@@ -41,3 +41,13 @@ filter_types = [
     # [np.power, (1, 3)]
     # [np.sqrt]
 ]
+def filter_wrapper(ft):
+    print(ft)
+    def filter_func(filter_input):
+        if len(ft) > 1:
+            args = [np.random.uniform(*b) for b in ft[1:]]
+            print(ft[1:])
+            return ft[0](filter_input, *args)
+        else:
+            return ft[0](filter_input)
+    return filter_func
