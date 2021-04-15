@@ -60,3 +60,10 @@ for b in range(len(bases)):
     filters.append(bf)
 
 print(filters[0])
+
+results = []
+for i, b in enumerate(bases):
+    g = b
+    for f in filters[i]:
+        g = f(g)
+    results.append(g)
