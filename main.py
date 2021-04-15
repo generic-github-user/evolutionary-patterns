@@ -4,6 +4,9 @@ import random
 
 width = 100
 height = 100
+bases_per_axis = 8
+noise = (-0.01, 0.01)
+num_filters = 10
 
 base = np.random.uniform(0, 1, [width, height, 1])
 base = np.zeros([width, height, 1])
@@ -18,13 +21,13 @@ for i, y in enumerate(base):
 #     np.linspace([0,0],[0,1],num=height,axis=1)
 # ]
 
-bases_per_axis = 2
+
 x = np.linspace(0, 1, width)
 y = np.linspace(0, 1, height)
 bases = []
 for i in range(bases_per_axis):
     for r in np.meshgrid(x, y):
-        bases.append(r + np.random.uniform(0, 0.1, [width, height]))
+        bases.append(r + np.random.uniform(*noise, [width, height]))
 
 print([b.shape for b in bases])
 
@@ -54,7 +57,7 @@ def filter_wrapper(ft):
 
 for b in range(len(bases)):
     bf = []
-    for i in range(20):
+    for i in range(num_filters):
         f = filter_wrapper(random.choice(filter_types))
         bf.append(f)
     filters.append(bf)
