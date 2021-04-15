@@ -67,3 +67,6 @@ for i, b in enumerate(bases):
     for f in filters[i]:
         g = f(g)
     results.append(g)
+result = np.product(np.stack(results), axis=0)
+plt.imshow(result, cmap='plasma')
+plt.show()
