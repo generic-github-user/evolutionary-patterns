@@ -35,6 +35,11 @@ for i in range(bases_per_axis):
     for r in np.meshgrid(x, y):
         bases.append(r + np.random.uniform(*noise, [width, height]))
 
+    # sparse?
+    xx, yy = np.meshgrid(x, y, sparse=True)
+    z = xx * yy
+    bases.append(z)
+
 print([b.shape for b in bases])
 
 # https://codereview.stackexchange.com/a/185794
