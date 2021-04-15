@@ -27,3 +27,17 @@ for i in range(bases_per_axis):
         bases.append(r + np.random.uniform(0, 0.1, [width, height]))
 
 print([b.shape for b in bases])
+
+filters = []
+filter_types = [
+    [np.sin],
+    [np.cos],
+    [np.square],
+    [np.add, (-5, 5)],
+    [np.multiply, (-5, 5)],
+    # [np.reciprocal],
+    [np.negative],
+    [np.positive],
+    # [np.power, (1, 3)]
+    # [np.sqrt]
+]
