@@ -70,18 +70,39 @@ for b in range(len(bases)):
 
 print(filters[0])
 
-results = []
-for i, b in enumerate(bases):
-    g = b
-    for f in filters[i]:
-        g = f(g)
-    results.append(g)
+def generate():
+    results = []
+    for i, b in enumerate(bases):
+        g = b
+        for f in filters[i]:
+            g = f(g)
+        results.append(g)
+    result = np.product(np.stack(results), axis=0)
+    return result
 
-print([r.shape for r in results])
-result = np.product(np.stack(results), axis=0)
-print(result.shape)
-print(np.stack(results).shape)
-print(results)
+# print([r.shape for r in results])
+# print(result.shape)
+# print(np.stack(results).shape)
+# print(results)
 
-plt.imshow(result, cmap='plasma')
+# plt.imshow(result, cmap='plasma')
+# plt.show()
+
+generated = []
+for m in range(np.prod(samples)):
+    generated.append(generate())
+
+fig, ax = plt.subplots(*samples)
+# ax4.plot(x, -y**2, 'tab:red')
+print(generated)
+
+index = 0
+for iy in ax:
+    for ix in iy:
+        ix.imshow(generated[index], cmap='plasma')
+        index += 1
+
+for ax in fig.get_axes():
+    ax.label_outer()
+
 plt.show()
