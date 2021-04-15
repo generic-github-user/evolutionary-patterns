@@ -31,6 +31,10 @@ for i in range(bases_per_axis):
 
 print([b.shape for b in bases])
 
+# https://codereview.stackexchange.com/a/185794
+def norm(array):
+    return np.interp(array, (array.min(), array.max()), (-1, +1))
+
 filters = []
 filter_types = [
     [np.sin],
@@ -38,9 +42,11 @@ filter_types = [
     [np.square],
     [np.add, (-5, 5)],
     [np.multiply, (-5, 5)],
-    # [np.reciprocal],
-    [np.negative],
-    [np.positive],
+    [norm]
+    # # [np.reciprocal],
+    # [np.negative],
+    # [np.positive],
+    # [np.mod, (-5, 5)]
     # [np.power, (1, 3)]
     # [np.sqrt]
 ]
